@@ -1,10 +1,7 @@
-PVector v0 = new PVector(1.0, 0.0, 20.0);
-
-PVector[] integrate_rk2(String name, float T, float dt) {
+PVector[] integrate_rk2(String name, float t0, float T, float dt, PVector v0) {
   DiffEq de = new DiffEq(name);
-  float[] t = arange(0, T, dt);
+  float[] t = arange(t0, T, dt);
   PVector[] V = new PVector[t.length];
-
   V[0] = v0;
 
   for (int k = 0; k < V.length - 1; k++) {
@@ -16,11 +13,10 @@ PVector[] integrate_rk2(String name, float T, float dt) {
   return V;
 }
 
-PVector[] integrate_rk4(String name, float T, float dt) {
+PVector[] integrate_rk4(String name, float t0, float T, float dt, PVector v0) {
   DiffEq de = new DiffEq(name);
-  float[] t = arange(0, T, dt);
+  float[] t = arange(t0, T, dt);
   PVector[] V = new PVector[t.length];
-
   V[0] = v0;
 
   for (int k = 0; k < V.length - 1; k++) {
