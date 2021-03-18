@@ -3,15 +3,18 @@ void setup_scene(float zrot) {
   scale(-10, 10, 10);
 
   translate(0.0, 25.0, -30.0);
-  rotateX(PI/2);
+  rotateX(radians(70));
   rotateZ(radians(150 + zrot));
 }
 
 void render(PVector[] V) {
   stroke(255);
   strokeWeight(0.1);
-  for (int k = 0; k < V.length - 2; k++)
-    line(V[k], V[k+1]);
+  for (int k = 0; k < V.length - 2; k++) {
+    PVector a = V[k], b = V[k + 1];
+    stroke(wire_magnetic_field(0, PVector.add(a, b).div(2)).mag() * 1000);
+    line(a, b);
+  }
   stroke(255, 0, 0);
   strokeWeight(0.4);
   line(V[V.length - 2], V[V.length - 1]);
@@ -20,11 +23,11 @@ void render(PVector[] V) {
 void axes() {
   strokeWeight(0.1);
   stroke(255, 0, 0);
-  line(0, 0, 0, 10, 0, 0);
+  line(0, 0, 0, 5, 0, 0);
   stroke(0, 255, 0);
-  line(0, 0, 0, 0, 10, 0);
+  line(0, 0, 0, 0, 5, 0);
   stroke(0, 0, 255);
-  line(0, 0, 0, 0, 0, 10);
+  line(0, 0, 0, 0, 0, 5);
 }
 
 void bounds(PVector b) {
@@ -47,6 +50,10 @@ float[] arange(float t0, float T, float dt) {
   for (int i = 0; i < n; i++)
     t[i] = t0 + dt * i;
   return t;
+}
+
+float min_dist(PVector a, PVector n, PVector p) {
+  return PVector.sub(a, p).cross(n).mag() / n.mag();
 }
 
 Object theSuper = this;
