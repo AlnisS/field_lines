@@ -32,11 +32,20 @@ void bounds(PVector b) {
   stroke(127);
   noFill();
   pushMatrix();
-  translate(0, 0, 25);
+  translate(0, 0, b.z / 2);
   box(b.x, b.y, b.z);
   popMatrix();
 }
 
 void line(PVector a, PVector b) {
   line(a.x, a.y, a.z, b.x, b.y, b.z);
+}
+
+
+float[] arange(float t0, float T, float dt) {
+  float[] t = new float[(int) ((T - t0 + dt) / dt)];
+  int n = t.length;
+  for (int i = 0; i < n; i++)
+    t[i] = t0 + dt * i;
+  return t;
 }
