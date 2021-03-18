@@ -18,10 +18,12 @@ void draw() {
   background(0);
   //render(V2);
 
+  PVector[] tmp = null;
+
   for (int j = -15; j <= 15; j+= 15) {
     for (int i = 3; i <= 16; i += 2) {
-      render(integrate_rk4("wire_magnetic_field", t0, T, dt, new PVector(wire1P.x - i, wire1P.y, 25 + j)));
-      render(integrate_rk4("wire_magnetic_field", t0, T, dt, new PVector(wire2P.x + i, wire2P.y, 25 + j)));
+      render(tmp = integrate_rk4("wire_magnetic_field", t0, T, dt, new PVector(wire1P.x - i, wire1P.y, 25 + j)), wire_magnetic_field_color(tmp));
+      render(tmp = integrate_rk4("wire_magnetic_field", t0, T, dt, new PVector(wire2P.x + i, wire2P.y, 25 + j)), wire_magnetic_field_color(tmp));
     }
   }
 

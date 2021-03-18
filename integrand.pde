@@ -26,3 +26,17 @@ PVector wire_magnetic_field(float t, PVector v) {
 
   return PVector.add(wire1B, wire2B);
 }
+
+color[] wire_magnetic_field_color(PVector[] points) {
+  color[] result = new color[points.length];
+  for (int i = 0; i < points.length; i++)
+    result[i] = color(int(min(wire_magnetic_field(0, points[i]).mag() * 1000, 255)));
+  return result;
+}
+
+color[] dummy_color(PVector[] points) {
+  color[] result = new color[points.length];
+  for (int i = 0; i < points.length; i++)
+    result[i] = color(255);
+  return result;
+}

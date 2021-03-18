@@ -7,13 +7,12 @@ void setup_scene(float zrot) {
   rotateZ(radians(150 + zrot));
 }
 
-void render(PVector[] V) {
+void render(PVector[] V, color[] c) {
   stroke(255);
   strokeWeight(0.1);
   for (int k = 0; k < V.length - 2; k++) {
-    PVector a = V[k], b = V[k + 1];
-    stroke(wire_magnetic_field(0, PVector.add(a, b).div(2)).mag() * 1000);
-    line(a, b);
+    stroke(c[k]);
+    line(V[k], V[k + 1]);
   }
   stroke(255, 0, 0);
   strokeWeight(0.4);
