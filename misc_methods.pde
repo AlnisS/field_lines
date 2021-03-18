@@ -41,11 +41,49 @@ void line(PVector a, PVector b) {
   line(a.x, a.y, a.z, b.x, b.y, b.z);
 }
 
-
 float[] arange(float t0, float T, float dt) {
   float[] t = new float[(int) ((T - t0 + dt) / dt)];
   int n = t.length;
   for (int i = 0; i < n; i++)
     t[i] = t0 + dt * i;
   return t;
+}
+
+Object theSuper = this;
+
+class DiffEq {
+  java.lang.reflect.Method method;
+
+  DiffEq(String name) {
+    try {
+      method = theSuper.getClass().getMethod(name, float.class, PVector.class);
+    }
+    catch (NoSuchMethodException e) {
+      println("Warning! No such differential equation method declared: " + name + "(float, PVector)");
+      println("Calls to DiffEq.f(float, PVector) will return null.\n");
+      println("Declared methods:");
+      java.lang.reflect.Method[] methods = theSuper.getClass().getDeclaredMethods();
+      for (int i = 0; i < methods.length; i++)
+        println(methods[i]);
+      println();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  PVector f(float t, PVector v) {
+    try {
+      if (method != null)
+        return (PVector) method.invoke(theSuper, t, v);
+
+      println("Warning: DiffEq.f(float, PVector) called for null method. Returning null PVector.");
+      println("Does the method exist with correct parameters in the form name(float, PVector)?");
+      println();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 }

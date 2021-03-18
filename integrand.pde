@@ -1,7 +1,3 @@
-void lorenz_attractor() {
-  transfer_r = lorenz_attractor(transfer_t, transfer_v);
-}
-
 PVector lorenz_attractor(float t, PVector v) {
   PVector result = new PVector();
 

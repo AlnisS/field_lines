@@ -10,11 +10,11 @@ void draw() {
   //float T = 50;
   float T = millis() * .001;
   float dt = 0.01;
-  
+
   // Both of these are consistent with a Python implementation to ~1000 iterations
   PVector[] V2 = integrate_rk2("lorenz_attractor", T, dt);
   PVector[] V4 = integrate_rk4("lorenz_attractor", T, dt);
-  
+
   background(0);
   render(V2);
   render(V4);
