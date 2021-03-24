@@ -6,7 +6,7 @@ class Field {
   }
 
   Trace trace(PVector seed, Class type) {
-    PVector[] points = integrate_rk4(type, 2, 50000, seed);
+    PVector[] points = integrate_rk4(type, 0.1, 10000, seed);
     float[] strengths = new float[points.length];
     for (int i = 0; i < points.length; i++)
       strengths[i] = potential(type, points[i]);
@@ -44,26 +44,36 @@ class Field {
       PVector f3 = influence(type, PVector.add(V[k], PVector.mult(f2, dt / 2)));
       PVector f4 = influence(type, PVector.add(V[k], PVector.mult(f3, dt)));
       // Note: vectors are processed destructively for this last operation
-      V[k + 1] = PVector.add(V[k], f1.add(f2.mult(2)).add(f3.mult(2)).add(f4).mult(dt / 6));
+      PVector temp = f1.add(f2.mult(2)).add(f3.mult(2)).add(f4).mult(dt / 6);
+      //if (norm)
+      //  temp.normalize();
+        //temp.setMag(0.1);
+      V[k + 1] = PVector.add(V[k], temp);
 
       PVector thisStep = PVector.sub(V[k + 1], V[0]);
       float thisStepMag = thisStep.mag() / dt;
 
       // We'll use the size of the first step as a heuristic for when we've completed a loop
-      if (firstStepMag == -1)
-        firstStepMag = thisStepMag;
+      //if (firstStepMag == -1)
+      //  firstStepMag = thisStepMag;
 
       // If we've completed a loop, we can quit early (i.e. for magnetism)
       // or if we are in a very negative place (i.e. near negative pole of charge)
-      if (k > 4
-        && (thisStepMag < firstStepMag) || (potential(type, V[k + 1]) < -0.1)) { //  || influence(type, V[k + 1])
+      if (potential(type, V[k + 1]) < -1) { //  || influence(type, V[k + 1])
         PVector[] newV = new PVector[k + 2];
         System.arraycopy(V, 0, newV, 0, k + 2);
         V = newV;
         break;
       }
       
-      dt = thisStepMag;
+      //println(100 / thisStepMag);
+      //dt = 5 / max(thisStepMag, 0);
+      //maxMag = max(dt, maxMag);
+      //println(maxMag);
+      //if (norm)
+        dt = min(10, 0.5 / pow(abs(potential(type, V[k + 1])), 0.5));
+      
+      //dt = thisStepMag;
       //print(dt);
     }
 
@@ -71,6 +81,9 @@ class Field {
   }
 }
 
+float maxMag = 0;
+
+boolean norm = false;
 
 class Electric extends Monopole {
   Electric(PVector position, float strength) {

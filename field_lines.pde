@@ -14,8 +14,14 @@ void setup() {
 }
 
 void draw() {
+  
+  
   setup_scene(millis() * 0.01);
-
+  
+  scale(1, 1, -1);
+  lights();
+  scale(1, 1, -1);
+  
   float T = 2000.0;
   float t0 = 0.0;
   float dt = 2;
@@ -37,7 +43,9 @@ void draw() {
   field.monopoles.get(1).position.x = 0 + 20 * cos(millis() * -0.001);
   field.monopoles.get(1).position.y = -5;
   
-  float traceOffset = 5;
+  float traceOffset = 2;
+  
+  norm = false;
   
   field.trace(new PVector(traceOffset, 0, 25), Electric.class).render(0.1);
   field.trace(new PVector(0, traceOffset, 25), Electric.class).render(0.1);
@@ -53,6 +61,24 @@ void draw() {
   field.trace(new PVector(0, traceOffset, 25 - traceOffset), Electric.class).render(0.1);
   field.trace(new PVector(-traceOffset, 0, 25 - traceOffset), Electric.class).render(0.1);
   field.trace(new PVector(0, -traceOffset, 25 - traceOffset), Electric.class).render(0.1);
+  
+  
+  
+  
+  field.trace(new PVector(traceOffset, traceOffset, 25), Electric.class).render(0.1);
+  field.trace(new PVector(traceOffset, -traceOffset, 25), Electric.class).render(0.1);
+  field.trace(new PVector(-traceOffset, -traceOffset, 25), Electric.class).render(0.1);
+  field.trace(new PVector(-traceOffset, traceOffset, 25), Electric.class).render(0.1);
+  
+  field.trace(new PVector(traceOffset, traceOffset, 25 + traceOffset), Electric.class).render(0.1);
+  field.trace(new PVector(traceOffset, -traceOffset, 25 + traceOffset), Electric.class).render(0.1);
+  field.trace(new PVector(-traceOffset, -traceOffset, 25 + traceOffset), Electric.class).render(0.1);
+  field.trace(new PVector(-traceOffset, traceOffset, 25 + traceOffset), Electric.class).render(0.1);
+  
+  field.trace(new PVector(traceOffset, traceOffset, 25 - traceOffset), Electric.class).render(0.1);
+  field.trace(new PVector(traceOffset, -traceOffset, 25 - traceOffset), Electric.class).render(0.1);
+  field.trace(new PVector(-traceOffset, -traceOffset, 25 - traceOffset), Electric.class).render(0.1);
+  field.trace(new PVector(-traceOffset, traceOffset, 25 - traceOffset), Electric.class).render(0.1);
   
   noStroke();
   pushMatrix();
